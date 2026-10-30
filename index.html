@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Verse</title>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        /* Basic page setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #00334d;
+            color: white;
+            overflow-x: hidden;
+        }
+
+
+        /* =================================================
+           MAIN FRONT SECTION
+           ================================================= */
+
+        .campus-page {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+
+            /*
+             ------------------------------------------------
+             BACKGROUND IMAGE IS ADDED HERE
+             ------------------------------------------------
+             Replace the image URL below with your own image.
+
+             Example:
+             background-image: url("my-campus-image.jpg");
+             */
+             background-image:
+                linear-gradient(
+                    to bottom,
+                 /* Top: no blue overlay */
+            rgba(0, 40, 65, 0.00) 20%,
+
+            /* Very soft beginning of the shadow */
+            rgba(0, 40, 65, 0.05) 32%,
+
+            /* Gradual darkening over the campus */
+            rgba(0, 40, 65, 0.12) 42%,
+
+            rgba(0, 40, 65, 0.22) 52%,
+
+            /* Shadow behind the hexagons */
+            rgba(0, 40, 65, 0.38) 62%,
+
+            rgba(0, 40, 65, 0.55) 70%,
+
+            /* Stronger blue near footer */
+            rgba(0, 40, 65, 0.72) 78%,
+
+            rgba(0, 40, 65, 0.84) 87%,
+
+            /* Only the very bottom becomes dark */
+            rgba(0, 40, 65, 0.90) 100%
+                ),
+                url("assets/test.png");
+
+            background-size: 100% 75vh;
+            background-position: center top;
+            background-repeat: no-repeat;
+        }
+
+
+        /* =================================================
+           TITLE AREA
+           ================================================= */
+
+        .header {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 68px;
+        }
+        .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1080px, 100%);
+    height: 300px;
+    background: radial-gradient(
+        ellipse closest-side at 50% 35%,
+        rgba(5, 6, 15, 0.60) 0%,
+        rgba(5, 6, 15, 0.50) 40%,
+        rgba(5, 6, 15, 0.25) 70%,
+        rgba(5, 6, 15, 0) 100%
+    );
+    z-index: -1;          /* sits behind the title and logo */
+    pointer-events: none;
+}
+
+        .hero-logo {
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 76px;
+}
+
+        .title {
+            font-size: clamp(45px, 6vw, 82px);
+            font-weight: 300;
+            letter-spacing: 2px;
+
+            text-shadow:
+                0 3px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .title span {
+            font-weight: 700;
+        }
+
+
+        /* Subtitle */
+
+        .subtitle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin-top: 8px;
+        }
+
+        .line {
+            width: 90px;
+            height: 2px;
+            background: rgba(255,255,255,0.75);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            letter-spacing: 6px;
+            color: #48d9f5;
+            font-weight: 500;
+        }
+
+
+        /* =================================================
+           HEXAGON NAVIGATION
+           ================================================= */
+
+        .hex-container {
+            position: absolute;
+
+            /*
+             Position of the cards.
+             Adjust this if you want them higher/lower.
+            */
+            bottom: 100px;
+
+            left: 50%;
+            transform: translateX(-50%);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 18px;
+
+            z-index: 5;
+        }
+
+
+        /* Individual hexagon */
+
+        .hex {
+            width: 145px;
+            height: 165px;
+
+            position: relative;
+
+            clip-path: polygon(
+                50% 0%,
+                100% 25%,
+                100% 75%,
+                50% 100%,
+                0% 75%,
+                0% 25%
+            );
+
+            background: rgba(2, 38, 55, 0.80);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            transition:
+                transform 0.3s ease,
+                background 0.3s ease;
+        }
+
+        /* Campus Map link */
+.campus-map-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+        /*
+         Border effect for hexagon
+         */
+
+        .hex::before {
+            content: "";
+
+            position: absolute;
+            inset: 2px;
+
+            clip-path: polygon(
+                50% 0%,
+                100% 25%,
+                100% 75%,
+                50% 100%,
+                0% 75%,
+                0% 25%
+            );
+
+            background: rgba(2, 39, 57, 0.90);
+        }
+
+
+        /* Content inside hexagon */
+
+        .hex-content {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            height: 100%;
+            width: 100%;
+
+            text-align: center;
+        }
+
+
+        /* Icons */
+
+        .hex-icon {
+            font-size: 40px;
+            margin-bottom: 14px;
+
+            color: white;
+
+            filter:
+                drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+        }
+
+
+        /* Card text */
+
+        .hex-text {
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+        }
+
+
+        /* Hover effect */
+
+        .hex:hover {
+            transform: translateY(-10px) scale(1.04);
+            background: rgba(0, 90, 120, 0.95);
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           CONTACT US
+           ================================================= */
+
+        .contact-section {
+            position: absolute;
+
+            bottom: 25px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 85%;
+
+            border-top: 1px dotted rgba(255,255,255,0.45);
+
+            padding-top: 18px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 15px;
+
+            z-index: 5;
+        }
+
+
+        .contact-icon {
+            width: 43px;
+            height: 43px;
+
+            border: 1px solid white;
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 20px;
+        }
+
+        .contact-text {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        /* FEEDBACK HEXAGON LINK */
+a.hex {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.hex .hex-text,
+a.hex .hex-icon {
+    color: white;
+}
+
+
+        /* =================================================
+           RESPONSIVE DESIGN
+           ================================================= */
+
+        @media (max-width: 900px) {
+
+            .hex-container {
+                gap: 5px;
+            }
+
+            .hex {
+                width: 125px;
+                height: 145px;
+            }
+
+            .hex-icon {
+                font-size: 32px;
+            }
+
+            .hex-text {
+                font-size: 12px;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .campus-page {
+                min-height: 100vh;
+
+                background-position: center top;
+            }
+
+            .header {
+                padding-top: 85px;
+            }
+            .hero-logo {                /* NEW */
+        height: 52px;
+        top: 14px;
+    }
+
+            .title {
+                font-size: 42px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                letter-spacing: 3px;
+            }
+
+            .line {
+                width: 45px;
+            }
+
+            .hex-container {
+                position: relative;
+
+                bottom: auto;
+                left: auto;
+                transform: none;
+
+                margin-top: 120px;
+
+                flex-wrap: wrap;
+
+                padding: 20px;
+            }
+
+            .hex {
+                width: 120px;
+                height: 140px;
+            }
+
+            .contact-section {
+                position: relative;
+
+                bottom: auto;
+
+                margin-top: 30px;
+                padding-bottom: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+
+
+
+<body>
+
+
+    <!-- =====================================================
+         MAIN CAMPUS VERSE FRONT
+         ===================================================== -->
+
+    <main class="campus-page">
+
+
+        <!-- =================================================
+             TITLE
+             ================================================= -->
+
+        <header class="header">
+            <img src="assets/campus-verse-logo.svg" class="hero-logo" alt="Campus Verse logo">
+            <h1 class="title">
+                CAMPUS <span>VERSE</span>
+            </h1>
+
+            <div class="subtitle-container">
+
+                <div class="line"></div>
+
+                <div class="subtitle">
+                    KNOW YOUR COLLEGE
+                </div>
+
+                <div class="line"></div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             HEXAGON MENU
+             ================================================= -->
+
+        <section class="hex-container">
+
+
+            <!-- THREADS -->
+
+            <div class="hex">
+
+                <div class="hex-content">
+
+                    <i class="fa-regular fa-comments hex-icon"></i>
+
+                    <div class="hex-text">
+                        THREADS
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CAMPUS MAP -->
+            <a href="map.html" class="hex campus-map-link">
+
+            <div class="hex">
+
+                <div class="hex-content">
+
+                    <i class="fa-solid fa-map-location-dot hex-icon"></i>
+
+                    <div class="hex-text">
+                        CAMPUS MAP
+                    </div>
+
+                </div>
+
+            </div>
+
+            </a>
+
+
+            <!-- MY PROFILE -->
+
+            <div class="hex">
+
+                <div class="hex-content">
+
+                    <i class="fa-solid fa-circle-user hex-icon"></i>
+
+                    <div class="hex-text">
+                        MY PROFILE
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STUDENT ID -->
+
+            <div class="hex">
+
+                <div class="hex-content">
+
+                    <i class="fa-regular fa-id-card hex-icon"></i>
+
+                    <div class="hex-text">
+                        STUDENT ID
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEEDBACK -->
+
+            <a href="feedback.html" class="hex">
+
+                <div class="hex-content">
+
+                    <i class="fa-regular fa-book-open hex-icon"></i>
+
+                    <div class="hex-text">
+                        FEEDBACK
+                    </div>
+
+                </div>
+
+            </a>
+
+
+        </section>
+
+
+        <!-- =================================================
+             CONTACT US
+             ================================================= -->
+
+        <div class="contact-section">
+
+            <div class="contact-icon">
+
+                <i class="fa-regular fa-envelope"></i>
+
+            </div>
+
+            <div class="contact-text">
+                CONTACT US
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+</body>
+</html>
+
