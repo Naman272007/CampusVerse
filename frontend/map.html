@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Verse | Campus Map</title>
+  <link rel="stylesheet" href="design.css">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="index.html">CAMPUS <b>VERSE</b></a>
+    <span>KNOW YOUR COLLEGE</span>
+    <button id="backHome" class="outline-btn">← Home</button>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">EXPLORE THE CAMPUS</p>
+      <h1>Campus Map</h1>
+      <p>Select Academic Block to explore its floors and rooms.</p>
+    </section>
+
+    <section class="campus-art">
+      <img
+        src="assets/campus-isometric.png"
+        alt="Isometric campus map"
+      >
+
+      <button id="academicPin" class="building-pin">
+        <span class="pin-dot"></span>
+        Academic Block
+      </button>
+
+      
+
+  <!-- ACADEMIC BLOCK POPUP -->
+  <div class="modal-backdrop" id="academicModal">
+    <section class="modal academic-modal">
+      <button class="close" data-close="academicModal">×</button>
+
+      <div class="academic-grid">
+        <div class="slideshow" data-slideshow="academic">
+          <img class="slide-image" src="" alt="Academic Block">
+          <div class="slide-dots"></div>
+          <p class="image-help">Building photographs</p>
+        </div>
+
+        <div class="details">
+          <p class="eyebrow">BUILDING DETAILS</p>
+          <h2>Academic Block</h2>
+
+          <label>Description</label>
+          <p id="academicDescription" class="editable-copy"></p>
+
+          <label>Directions</label>
+          <p id="academicDirections" class="editable-copy"></p>
+
+          <div class="floor-heading">Explore a floor</div>
+
+          <div class="floor-buttons">
+            <button data-floor="ground">A · Ground Floor</button>
+            <button data-floor="first">B · First Floor</button>
+            <button data-floor="second">C · Second Floor</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FLOOR PLAN POPUP -->
+  <div class="modal-backdrop" id="floorModal">
+    <section class="modal floor-modal">
+      <button class="close" data-close="floorModal">×</button>
+
+      <div class="floor-modal-head">
+        <div>
+          <p class="eyebrow">ACADEMIC BLOCK</p>
+          <h2 id="floorTitle">Ground Floor</h2>
+          <p>Click a room name to view its details.</p>
+        </div>
+
+        <div class="floor-switcher">
+          <button data-floor="ground">Ground</button>
+          <button data-floor="first">First</button>
+          <button data-floor="second">Second</button>
+        </div>
+      </div>
+
+      
+<!-- GLOBAL SEARCH: SEARCH ALL THREE FLOORS -->
+<div class="global-room-search">
+  <div class="search-input-wrapper">
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+      type="search"
+      id="globalRoomSearch"
+      placeholder="Search any room across all floors..."
+      autocomplete="off"
+      aria-label="Search rooms across all floors"
+    >
+  </div>
+
+  <div
+    id="globalSearchResults"
+    class="global-search-results"
+    role="listbox"
+    hidden
+  ></div>
+</div>
+
+
+      
+      <!-- FLOOR PLAN WITH ZOOM -->
+      <div class="floor-zoom-controls">
+        <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+        <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
+        <button type="button" id="zoomReset">Reset</button>
+      </div>
+
+      <div class="floor-map-viewport">
+        <div id="floorMapCanvas" class="plan-stage">
+          <img id="floorSvg" src="assets/final_ground.svg"
+               alt="Ground Floor plan">
+          <div id="roomHotspots" class="hotspot-layer"></div>
+        </div>
+      </div>
+
+
+      <p class="plan-hint">
+       Note:To avoid confusion, all directions on the first and second floors are given with reference to the staircase near the Entrance Lobby.
+      </p>
+    </section>
+  </div>
+
+  <!-- ROOM DETAILS POPUP -->
+  <div class="modal-backdrop" id="roomModal">
+    <section class="modal room-modal">
+      <button class="close" data-close="roomModal">×</button>
+
+      <div class="room-grid">
+        <div class="details room-details">
+          <p class="eyebrow" id="roomFloorEyebrow">GROUND FLOOR</p>
+          <h2 id="roomTitle">Room name</h2>
+
+          <label>Description</label>
+          <p id="roomDescription" class="editable-copy"></p>
+
+          <label>Directions</label>
+          <p id="roomDirections" class="editable-copy"></p>
+        </div>
+
+        <div class="slideshow" data-slideshow="room">
+          <img class="slide-image" src="" alt="Room photographs">
+          <div class="slide-dots"></div>
+          <p class="image-help">Room photographs</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="interaction.js"></script>
+</body>
+</html>
